@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks | CampusPilot AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/">CampusPilot <span>AI</span></a>
+        <a href="/">Dashboard</a>
+    </header>
+
+    <main class="container">
+        <section class="welcome">
+            <p class="eyebrow">STAY ORGANIZED</p>
+            <h1>My Study Tasks</h1>
+            <p class="subtitle">Keep your assignments and deadlines in one place.</p>
+        </section>
+
+        <section class="feature-card">
+            <h2>Add a new task</h2>
+
+            <form method="POST" action="{{ url_for('tasks') }}" class="task-form">
+                <label for="title">Assignment or task name</label>
+                <input id="title" name="title" type="text"
+                       placeholder="Example: Complete Python assignment" required>
+
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" type="text"
+                       placeholder="Example: Python Programming" required>
+
+                <label for="due_date">Due date</label>
+                <input id="due_date" name="due_date" type="date" required>
+
+                <button type="submit">Add task</button>
+            </form>
+        </section>
+
+        <section class="task-list">
+            <h2>My assignments</h2>
+
+            {% if tasks %}
+                {% for task in tasks %}
+                    <article class="feature-card task-item">
+                        <div>
+                            <h3>{{ task["title"] }}</h3>
+                            <p>{{ task["subject"] }}</p>
+                            <p>Due: {{ task["due_date"] }}</p>
+
+                            {% if task["completed"] %}
+                                <span class="card-label">Completed</span>
+                            {% else %}
+                                <span class="card-label">Pending</span>
+                            {% endif %}
+                        </div>
+
+                        {% if not task["completed"] %}
+                            <form method="POST"
+                                  action="{{ url_for('complete_task', task_id=task['id']) }}">
+                                <button type="submit">Mark complete</button>
+                            </form>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p class="subtitle">No tasks yet. Add your first study task above.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

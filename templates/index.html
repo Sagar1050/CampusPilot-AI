@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPilot AI</title>
+
+    <!-- Load our CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">CampusPilot <span>AI</span></div>
+        <div class="status">Your study companion</div>
+    </header>
+
+    <main class="container">
+        <section class="welcome">
+            <p class="eyebrow">YOUR PERSONAL STUDY ASSISTANT</p>
+            <h1>Study smarter.<br>Achieve more.</h1>
+            <p class="subtitle">
+                Plan your learning, organize your academic tasks,
+                and stay focused on your goals.
+            </p>
+        </section>
+
+        <section class="dashboard">
+            <article class="feature-card">
+    <div class="feature-icon">📚</div>
+    <h2>Study Planner</h2>
+    <p>Create a timetable based on your subjects and exam date.</p>
+    <a href="{{ url_for('planner') }}">Create study plan →</a>
+</article>
+
+            
+<article class="feature-card">
+    <div class="feature-icon">✅</div>
+    <h2>Task Manager</h2>
+    <p>Manage your assignments and deadlines.</p>
+    <p>Tasks: {{ total_tasks }} · Completed: {{ completed_tasks }}</p>
+    <a href="{{ url_for('tasks') }}">Open Task Manager →</a>
+</article>
+
+
+            
+<article class="feature-card">
+    <div class="feature-icon">🤖</div>
+    <h2>AI Study Assistant</h2>
+    <p>Ask questions and receive AI-powered explanations.</p>
+    <a href="{{ url_for('assistant') }}">Chat with AI →</a>
+</article>
+
+        </section>
+
+        <footer>
+            CampusPilot AI · Your Intelligent Study Companion
+        </footer>
+    </main>
+</body>
+</html>

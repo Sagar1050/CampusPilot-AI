@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Study Assistant | CampusPilot AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="topbar">
+        <a class="brand" href="/">
+            CampusPilot <span>AI</span>
+        </a>
+
+        <a href="/">Dashboard</a>
+    </header>
+
+    <main class="container">
+
+        <!-- Welcome section -->
+        <section class="welcome">
+            <p class="eyebrow">YOUR AI LEARNING PARTNER</p>
+
+            <h1>AI Study Assistant</h1>
+
+            <p class="subtitle">
+                Ask questions about programming, college subjects,
+                exam preparation, assignments, and study strategies.
+            </p>
+        </section>
+
+        <!-- Quick actions -->
+        <section class="feature-card quick-actions">
+            <h2>What do you need help with?</h2>
+
+            <p>
+                Choose an action to get personalized recommendations
+                based on your saved tasks and deadlines.
+            </p>
+
+            <div class="quick-action-buttons">
+
+                <form method="POST"
+                      action="{{ url_for('assistant') }}">
+                    <input type="hidden"
+                           name="question"
+                           value="Based on my saved pending assignments and deadlines, create a practical study plan for today.">
+
+                    <button type="submit">
+                        📅 Plan My Day
+                    </button>
+                </form>
+
+                <form method="POST"
+                      action="{{ url_for('assistant') }}">
+                    <input type="hidden"
+                           name="question"
+                           value="Review my saved tasks and identify which pending assignments I should prioritize first. Explain why.">
+
+                    <button type="submit">
+                        🎯 Prioritize Assignments
+                    </button>
+                </form>
+
+                <form method="POST"
+                      action="{{ url_for('assistant') }}">
+                    <input type="hidden"
+                           name="question"
+                           value="Review my saved pending tasks and deadlines. Suggest how I can prepare without leaving urgent work until the last minute.">
+
+                    <button type="submit">
+                        ⏰ Prepare for Deadlines
+                    </button>
+                </form>
+
+                <form method="POST"
+                      action="{{ url_for('assistant') }}">
+                    <input type="hidden"
+                           name="question"
+                           value="Based on my saved tasks, suggest a balanced study routine with focused study sessions and breaks.">
+
+                    <button type="submit">
+                        🧠 Build a Study Routine
+                    </button>
+                </form>
+
+            </div>
+        </section>
+
+        <!-- Ask a custom question -->
+        <section class="feature-card">
+
+            <h2>Ask CampusPilot AI</h2>
+
+            <!-- Start a fresh conversation -->
+            <form method="POST"
+                  action="{{ url_for('assistant') }}"
+                  class="new-conversation-form">
+
+                <input type="hidden"
+                       name="action"
+                       value="clear">
+
+                <button type="submit"
+                        class="new-conversation-btn">
+                    🧹 New Conversation
+                </button>
+            </form>
+
+            <p class="subtitle">
+                Have a different question? Type it below.
+            </p>
+
+            <form method="POST"
+                  action="{{ url_for('assistant') }}"
+                  class="task-form">
+
+                <label for="question">Your question</label>
+
+                <textarea
+                    id="question"
+                    name="question"
+                    rows="4"
+                    placeholder="Example: Explain recursion in Python with a simple example..."
+                    required></textarea>
+
+                <button type="submit">
+                    Ask AI Assistant
+                </button>
+            </form>
+
+        </section>
+        
+<!-- Conversation history -->
+{% if history %}
+<section class="feature-card chat-history">
+    <h2>Your Conversation</h2>
+
+    <div class="chat-messages">
+        {% for message in history %}
+            <div class="chat-message {{ message.role }}">
+                <div class="chat-avatar">
+                    {% if message.role == "user" %}
+                        👤
+                    {% else %}
+                        ✨
+                    {% endif %}
+                </div>
+
+                <div class="chat-bubble">
+                    <p class="chat-sender">
+                        {% if message.role == "user" %}
+                            You
+                        {% else %}
+                            CampusPilot AI
+                        {% endif %}
+                    </p>
+
+                    <div class="answer-text">{{ message.text | safe }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% elif answer %}
+<section class="feature-card ai-answer">
+    <h2>CampusPilot's Response</h2>
+    <div class="answer-text">{{ answer }}</div>
+</section>
+{% endif %}
+
+
+    </main>
+</body>
+</html>
